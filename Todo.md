@@ -6,10 +6,10 @@ Building and Deployment:
 
 
 Github Items:
-- [ ] Github CI/CD
-- [ ] License 
-- [ ] Contribution Guidelines.
-- [ ] Ticket Templates
+- [?] Github CI/CD
+- [X] License 
+- [X] Contribution Guidelines.
+- [X] Ticket Templates
 
 Misc Organization:
 - [X] change host vars dir to hosts.
