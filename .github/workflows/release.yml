@@ -8,7 +8,6 @@ on:
       - "dev"
     tags:
       - 'v*'
-      
 
 jobs:
   build:
@@ -18,21 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y dpkg-dev dh-make devscripts build-essential python3 python3-yaml
+          sudo apt-get install -y dpkg-dev dh-make devscripts build-essential
 
       - name: Build Debian package
         run: |
           chmod +x debian/postinst
           chmod +x debian/prerm
-          dpkg-deb --build . ansible-inventory-manager-${GITHUB_REF#refs/tags/v}.deb
+          debuild -us -uc -b
 
       - name: Create Release
         id: create_release
@@ -51,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ansible-inventory-manager-${GITHUB_REF#refs/tags/v}.deb
-          asset_name: ansible-inventory-manager-${GITHUB_REF#refs/tags/v}.deb
+          asset_path: ./ansible-inventory-manager_${GITHUB_REF#refs/tags/v}-1_amd64.deb
+          asset_name: ansible-inventory-manager_${GITHUB_REF#refs/tags/v}-1_amd64.deb
           asset_content_type: application/x-debian-package
