@@ -1,0 +1,55 @@
+name: Build and Release Debian Package
+
+on:
+  push:
+    branches:
+      - "master"
+      - "main"
+    tags:
+      - 'v*'
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev dh-make devscripts build-essential python3 python3-yaml
+
+      - name: Build Debian package
+        run: |
+          chmod +x debian/postinst
+          chmod +x debian/prerm
+          dpkg-deb --build . ansible-inventory-manager-${GITHUB_REF#refs/tags/v}.deb
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ansible-inventory-manager-${GITHUB_REF#refs/tags/v}.deb
+          asset_name: ansible-inventory-manager-${GITHUB_REF#refs/tags/v}.deb
+          asset_content_type: application/x-debian-package

@@ -1,0 +1,147 @@
+# logging:
+# This section defines customizable logging settings for the inventory system.
+# Users can modify these settings to control log output formats and behaviors.
+
+main:
+  # Path where inventory-related files are stored.
+  STORAGE_LOCATION: /home/your-user/Ansible/inventory  
+
+logging:
+  # Basic format for log messages, defaulting to ISO8601 time format.
+  LOG_FORMAT: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  
+  # Format for timestamp in log messages (ISO8601 Format).
+  LOG_TIMESTAMP_FORMAT: '%Y-%m-%dT%H:%M:%S'
+  
+  # Custom format for displaying the module and method in log messages.
+  CUSTOM_LOG_FORMAT: "{module} {method}: {message}"
+  
+  # Enable or disable log file rotation.
+  ENABLE_LOG_ROTATION: True
+  
+  # Flag to control whether the application should exit on errors.
+  EXIT_ON_ERROR: False
+  
+  # Flag to control whether the application should exit on fatal logs.
+  EXIT_ON_FATAL: True
+  
+  # Path to the log file.
+  LOG_FILE_PATH: '/var/log/ansible-inventory-loader.log'
+  
+  # Enable or disable file logging.
+  ENABLE_FILE_LOGGING: True
+  
+  # Maximum size of the log file before rotation (in bytes).
+  LOG_FILE_MAX_SIZE: 10485760  # 10 MB
+  
+  # Number of backup log files to keep.
+  LOG_FILE_BACKUP_COUNT: 3
+  
+  # Minimum logging level.
+  MIN_LOG_LEVEL: ERROR
+
+# debugging:
+# This section contains flags that enable or disable debugging for various components of the system.
+
+debugging:
+  # Debugging for the shunting yard algorithm used in parsing expressions.
+  DEBUG_EVALUATOR_SHUNTING_YARD: True
+
+# directories:
+# This section defines the folder paths and file types that the inventory system will interact with.
+
+directories:
+  # Path to the folder containing host variable files.
+  HOST_VARS_FOLDER: 'hosts'
+  
+  # Path to the folder containing group variable files.
+  GROUP_VARS_FOLDER: 'groups'
+  
+  # List of valid YAML file extensions to be considered in loading processes.
+  LOADER_YAML_EXTENSIONS: ['.yaml', '.yml']
+
+# keys:
+# These settings define various key names used in the inventory scripts.
+# These include keys for enabling/disabling groups or hosts and special keys for internal logic.
+
+keys:
+  # Key for identifying the group criteria in group vars.
+  HOST_CRITERIA_VAR: 'host_criteria'
+  
+  # Key used to enable or disable hosts or groups dynamically.
+  KEY_ENABLED: 'enabled'
+  
+  # Special key indicating the global 'all' group in group vars, and indicating the 'all' host in host-vars.
+  KEY_ALL: 'all'
+  
+  # Key under which host variables are stored in the output inventory.
+  KEY_HOST_VARS: 'host_vars'
+  
+  # This is the _meta key, in the root of the inventory which holds... hostvars.
+  KEY_META: '_meta'
+  
+  # This key is used in both _meta/host_vars/#/vars, as well as #/vars.
+  KEY_VARS: 'vars'
+  
+  # This key is used under #/hosts, to indicate which hosts belong to a specific group.
+  KEY_HOSTS: 'hosts'
+  
+  # This key is used under #/children, and groups nested under the current group.
+  KEY_CHILDREN: 'children'
+
+# features:
+# This section contains boolean flags that enable or disable specific features or behaviors within the inventory system.
+
+features:
+  # Flag to add all detected hosts to the 'all' group automatically.
+  ADD_ALL_HOSTS_TO_ALL_GROUP: True
+  
+  # If there is a HOST_VARS_FOLDER/KEY_ALL.yaml host, aka, a host named 'all'.
+  # This will merge the vars from that host into every other host, IF the var was not already defined.
+  MERGE_HOST_ALL_VARS: True
+  
+  # Enables or disables the functionality to evaluate group criteria.
+  # Given this is the primary reason this library/inventory script was written, why would you disable it?
+  EVALUATE_GROUP_CRITERIA: True
+
+# sorting:
+# This section contains boolean flags which will enable or disable the sorting of the output data.
+# Note: Ansible does not care if the output is sorted. This is all for aesthetic reasons.
+# There is literally no advantage at all to sorting, other than having happy thoughts from looking at perfectly sorted data.
+
+sorting:
+  # This is a "master" flag, which will enable or disable all sorting. If disabled, the other sorting keys have no effect.
+  SORT_ENABLED: True
+  
+  # Will automatically sort group keys based on name.
+  SORT_GROUP_KEYS: True
+  
+  # Alphabetically sort keys under _meta/host_vars.
+  SORT_HOSTVAR_KEYS: True
+  
+  # Alphabetically sort keys under _meta/host_vars/*/vars.
+  SORT_HOSTVAR_VARS: True
+  
+  # Alphabetically sort keys under */vars.
+  SORT_GROUP_VARS: True
+  
+  # Alphabetically sort keys under */hosts.
+  SORT_GROUP_HOSTS: True
+  
+  # Alphabetically sort keys under */children.
+  SORT_GROUP_CHILDREN: True
+
+# cache:
+# This section contains configuration settings for enabling and managing the caching of the inventory data.
+# Caching helps improve performance by storing the generated inventory data and reusing it until the cache is invalidated.
+
+cache:
+  # This flag enables or disables the caching feature.
+  # If enabled, the inventory data will be cached to improve performance.
+  # If disabled, the inventory data will be generated fresh on each run.
+  CACHE_ENABLED: True
+  
+  # This defines the file path where the cache will be stored.
+  # The cache file contains the serialized inventory data.
+  # Ensure the specified path is writable by the script.
+  CACHE_LOCATION: "/tmp/ansible-inventory-cache.json"

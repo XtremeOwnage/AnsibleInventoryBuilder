@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# Remove the symlink
+rm -f /usr/bin/ansible-xo-inventory.py
+
+exit 0
