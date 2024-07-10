@@ -20,4 +20,4 @@
 ./src/lib/run_all_tests.py
 ./src/lib/utils.py
 ./src/lib/utils_tests.py
-./example/ansible_inventory_loader.yaml
+./example/xo_inventory.yaml

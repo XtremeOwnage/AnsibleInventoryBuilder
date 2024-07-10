@@ -4,4 +4,10 @@ set -e
 # Remove the symlink
 rm -f /usr/bin/ansible-xo-inventory.py
 
+# Remove logs
+rm -f /var/log/ansible-inventory-loader.log
+
+# Nuke anything left in the lib folder
+rm -rf /usr/lib/xo-ansible-inventory-manager
+
 exit 0

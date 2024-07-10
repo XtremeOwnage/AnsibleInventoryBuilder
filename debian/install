@@ -1,2 +1,5 @@
-src/lib/* usr/lib/xo-ansible-inventory-manager/lib/
-example/ansible_inventory_loader.yaml etc/xo-ansible-inventory-manager/
+# Copy lib/scripts
+src/lib/* /usr/lib/xo-ansible-inventory-manager
+
+# Example config
+example/xo_inventory.yaml /etc/ansible/

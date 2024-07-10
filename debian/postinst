@@ -2,9 +2,8 @@
 set -e
 
 # Set permissions
-chmod +x /usr/lib/ansible-xo-inventory-builder/ansible-xo-inventory.py
+chmod +x /usr/lib/xo-ansible-inventory-manager/ansible-xo-inventory.py
 
 # Create a symlink
-ln -s /usr/lib/ansible-xo-inventory-builder/ansible-xo-inventory.py /usr/bin/ansible-xo-inventory.py
-
+ln -s /usr/lib/xo-ansible-inventory-manager/ansible-xo-inventory.py /usr/bin/ansible-xo-inventory.py
 exit 0
