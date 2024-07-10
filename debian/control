@@ -1,9 +1,10 @@
 Source: xo-ansible-inventory-manager
-Section: base
+Section: devel
 Priority: optional
 Maintainer: XtremeOwnage <admin@xtremeownage.com>
 Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.6
+Rules-Requires-Root: no
 Homepage: https://github.com/XtremeOwnage/XO-Ansible-Inventory-Manager
 
 Package: xo-ansible-inventory-manager

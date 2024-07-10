@@ -1,0 +1,2 @@
+src/lib/* usr/lib/xo-ansible-inventory-manager/lib/
+example/ansible_inventory_loader.yaml etc/xo-ansible-inventory-manager/
