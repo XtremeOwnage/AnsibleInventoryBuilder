@@ -1,3 +1,5 @@
+Certainly! Here is the complete updated `README.md`:
+
 # Ansible Dynamic Inventory Script
 
 ## Overview
@@ -6,61 +8,26 @@ This project provides a dynamic inventory script for Ansible, allowing for more 
 
 ## Features
 
-- **Dynamic Inventory Generation**: Automatically generate inventory from structured YAML files.
+- **Dynamic Inventory Generation**: Automatically generate inventory from structured YAML files and folders.
 - **Group Criteria Evaluation**: Dynamically assign hosts to groups based on custom criteria.
-- **Sorting and Organization**: Optional sorting of inventory for improved readability.
 - **Comprehensive Logging**: Detailed logging with customizable log levels and formats.
+
+## Installation
+
+### High-Level Installation (Using dpkg)
+
+1. **Download the Package**: Obtain the `.deb` package from the releases section of this repository.
+2. **Install the Package**: Use `dpkg -i` to install the package.
+3. **Configure the Plugin**: Edit `/etc/ansible/xo_inventory.yaml` file to configure the plugin settings. [example/xo_inventory.yaml](./example/xo_inventory.yaml)
+4. **Update Ansible Configuration**: Modify `/etc/ansible/ansible.cfg` to use the inventory plugin. [example/ansible.cfg](./example/ansible.cfg)
+
+For detailed installation instructions, refer to the [Plugin Installation](./docs/plugin-installation.md) documentation.
 
 ## Configuration
 
-### Inventory Directory Structure
+The bare minimum configuration requires setting the `STORAGE_LOCATION` to point to your inventory location. 
 
-The inventory directory should contain two subdirectories: `host_vars` and `group_vars`. Each subdirectory will hold YAML files defining the variables for hosts and groups, respectively.
-
-- **`host_vars`**: Contains YAML files where each file represents a host.
-- **`group_vars`**: Contains YAML files where each file represents a group.
-
-### Example Directory Structure
-
-```
-inventory/
-├── host_vars/
-│   ├── host1.yaml
-│   ├── host2.yaml
-│   └── all.yaml
-├── group_vars/
-│   ├── group1.yaml
-│   ├── group2.yaml
-│   └── all.yaml
-├── inventory.py
-└── lib/
-    ├── ansible_inventory_builder.py
-    ├── ansible_inventory_loader.py
-    ├── ansible_inventory_logger.py
-    ├── ansible_inventory_utils.py
-    └── criteria_tokenizer.py
-```
-
-### Host Variables (`host_vars`)
-
-Each host's YAML file should define the variables for that host. An example `host1.yaml`:
-
-```yaml
-enabled: true
-ansible_host: 192.168.1.1
-type: webserver
-```
-
-### Group Variables (`group_vars`)
-
-Each group's YAML file should define the variables and criteria for that group. An example `group1.yaml`:
-
-```yaml
-enabled: true
-group_criteria: "type=webserver"
-var1: value1
-var2: value2
-```
+For detailed configuration options, refer to the [Plugin Configuration](./docs/plugin-configuration.md) documentation.
 
 ## Usage
 
@@ -73,162 +40,94 @@ The inventory script should be run with the `--list` or `--host <hostname>` argu
 
 ### Common Configurations
 
-#### Enable/Disable Debugging
-
-Debugging can be enabled or disabled through the `globals.py` file.
-
-```python
-# Enable or disable all debugging
-DEBUG_ENABLED = True
-
-# Individual debugging flags
-DEBUG_TOKENIZER = False
-DEBUG_EVALUATOR = False
-DEBUG_EVALUATOR_CONDITIONS = False
-DEBUG_EVALUATOR_SHUNTING_YARD = False
-DEBUG_INVENTORY = True
-```
-
-#### Sorting Configuration
-
-Control sorting through the `globals.py` file.
-
-```python
-SORT_ENABLED = True
-SORT_GROUP_KEYS = True
-SORT_HOSTVAR_KEYS = True
-SORT_HOSTVAR_VARS = True
-SORT_GROUP_VARS = True
-SORT_GROUP_HOSTS = True
-SORT_GROUP_CHILDREN = True
-```
-
-#### Logging Configuration
-
-Logging configuration is also managed in `globals.py`.
-
-```python
-LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-CUSTOM_LOG_FORMAT = '{module} {method}: {message}'
-LOG_TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S'
-ENABLE_FILE_LOGGING = True
-LOG_FILE_PATH = '/var/log/ansible-inventory.log'
-LOG_FILE_MAX_SIZE = 1024 * 1024 * 5  # 5 MB
-LOG_FILE_BACKUP_COUNT = 3
-ENABLE_LOG_ROTATION = True
-EXIT_ON_ERROR = False
-EXIT_ON_FATAL = True
-```
+Please see [Plugin Configuration](./docs/plugin-configuration.md).
 
 ## Code Structure
 
 ### Criteria Evaluation Language
 
-The criteria language allows for complex expressions to determine group membership.
+The criteria language allows for complex expressions to determine group membership. For more details, refer to the [Expression Syntax](./docs/expression-syntax.md) documentation.
 
-- **Variables**: Represented by alphanumeric strings.
-- **Constants**: Quoted strings or numeric values.
-- **Operators**: Include `=`, `!=`, `<`, `<=`, `>`, `>=`, `AND`, `OR`, and more.
+## Building Inventory
 
-### Tokenization
+For detailed instructions on building and organizing your inventory, refer to the [Building Inventory](./docs/building-inventory.md) documentation.
 
-Tokens are extracted from criteria expressions using the `CriteriaTokenizer` class. Each token can be a variable, constant, or operator.
-
-### Group Criteria Evaluation
-
-The `evaluate_group_criteria` function dynamically assigns hosts to groups based on the criteria defined in the group variables. This uses a Shunting Yard algorithm to parse and evaluate the expressions.
-
-## Example
-
-Here is a complete example to demonstrate how everything fits together.
-
-### Directory Structure
+## Example Directory Structure
 
 ```
 inventory/
-├── host_vars/
-│   ├── web1.yaml
-│   ├── db1.yaml
-│   └── all.yaml
-├── group_vars/
-│   ├── webservers.yaml
-│   ├── databases.yaml
-│   └── all.yaml
-└── inventory.py
+├── hosts/                                        # Top-level folder for host variable files
+│   ├── host1.yaml                                # Creates host1 and sets its variables
+│   ├── host2.yaml                                # Creates host2 and sets its variables
+├── groups/                                       # Top-level folder for group variable files and sub-groups
+│   ├── group1.yaml                               # Creates group1 and sets its variables and criteria
+│   ├── group2.yaml                               # Creates group2 and sets its variables and criteria
+│   ├── rke/                                      # Folder for the 'rke' group
+│   │   ├── _criteria.yaml                        # Defines criteria to automatically add hosts to the 'rke' group
+│   │   ├── hosts/                                # Folder for hosts specific to the 'rke' group
+│   │   │   ├── host3.yaml                        # Creates host3 under 'rke' and sets its variables
+│   │   │   └── host4.yaml                        # Creates host4 under 'rke' and sets its variables
+│   │   ├── vars/                                 # Folder for variables specific to the 'rke' group
+│   │   │   ├── specific.yaml                     # Specific variables for 'rke'
+│   │   │   └── general.yaml                      # General variables for 'rke'
+│   │   └── groups/                               # Folder for child groups under 'rke'
+│   │       ├── child-group1.yaml                 # Creates child-group1 under 'rke' and sets its variables
+│   │       ├── child-group2.yaml                 # Creates child-group2 under 'rke' and sets its variables
+│   │       └── sub-group/                        # Sub-folder for further nesting under 'rke'
+│   │           ├── _criteria.yaml                # Defines criteria to automatically add hosts to the 'sub-group' group
+│   │           ├── hosts/                        # Folder for hosts specific to the sub-group
+│   │           │   ├── host5.yaml                # Creates host5 under the sub-group and sets its variables
+│   │           │   └── host6.yaml                # Creates host6 under the sub-group and sets its variables
+│   │           ├── vars/                         # Folder for variables specific to the sub-group
+│   │           │   ├── more-specific.yaml        # More specific variables for the sub-group
+│   │           │   └── additional.yaml           # Additional variables for the sub-group
+│   │           └── groups/                       # Folder for child groups under the sub-group
+│   │               ├── sub-child-group1.yaml     # Creates sub-child-group1 under the sub-group and sets its variables
+│   │               └── sub-child-group2.yaml     # Creates sub-child-group2 under the sub-group and sets its variables
+│   └── all.yaml                                  # Variables applied to all groups
+├── vars/                                         # Top-level folder for general variables
+│   ├── dns.yaml                                  # DNS-specific variables, merged with groups/all.yaml
+│   └── common.yaml                               # Common variables shared across multiple groups/hosts, merged with groups/all.yaml
 ```
 
-### Example Host Variables (`host_vars`)
+## Example Host Variables (`hosts`)
 
-**`web1.yaml`**:
+**`host1.yaml`**:
 
 ```yaml
 enabled: true
-ansible_host: 192.168.1.10
+ansible_host: 192.168.1.1
 type: webserver
 ```
 
-**`db1.yaml`**:
+## Example Group Variables (`groups`)
+
+**`group1.yaml`**:
 
 ```yaml
 enabled: true
-ansible_host: 192.168.1.20
-type: database
-```
-
-**`all.yaml`**:
-
-```yaml
-enabled: true
-ntp_server: time.example.com
-```
-
-### Example Group Variables (`group_vars`)
-
-**`webservers.yaml`**:
-
-```yaml
-enabled: true
-group_criteria: "type=webserver"
+host_criteria: "type=webserver"
 var1: value1
 ```
 
-**`databases.yaml`**:
+## Example General Variables (`vars`)
+
+**`dns.yaml`**:
 
 ```yaml
-enabled: true
-group_criteria: "type=database"
-var2: value2
+dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
 ```
 
-**`all.yaml`**:
+**`common.yaml`**:
 
 ```yaml
-enabled: true
-common_var: common_value
+timezone: UTC
+backup_retention_days: 7
 ```
 
-### Running the Script
-
-To generate the inventory, you can run:
-
-```sh
-./inventory.py --list
-```
-
-This will output a JSON structure of the inventory based on the host and group variables defined.
-
-### Debugging
-
-If you need to debug the script, you can enable debugging in `globals.py`:
-
-```python
-DEBUG_ENABLED = True
-DEBUG_INVENTORY = True
-```
-
-Then, run the script and observe the debug output to understand how the inventory is being constructed.
-
-### Custom Criteria Evaluation
+## Custom Criteria Evaluation
 
 The criteria evaluation allows for complex expressions. Here are some examples:
 
@@ -237,8 +136,16 @@ The criteria evaluation allows for complex expressions. Here are some examples:
 - **Logical OR**: `type=webserver OR type=database`
 - **Comparison**: `version>=2.0`
 
-These expressions can be used in the `group_vars` files to dynamically assign hosts to groups based on the host variables.
+These expressions can be used in the `group_vars` files to dynamically assign hosts to groups based on the host variables. For more details, refer to the [Expression Syntax](./docs/expression-syntax.md) documentation.
+
+## Debugging
+
+For detailed debugging instructions, refer to the [Debugging](./docs/debugging.md) documentation.
+
+## Testing
+
+For detailed testing instructions, refer to the [Testing](./docs/testing.md) documentation.
 
 ## Conclusion
 
-This project provides a powerful and flexible way to manage Ansible inventories dynamically. By leveraging structured YAML files and custom criteria, you can automate and streamline your infrastructure management with ease. The comprehensive logging and optional sorting further enhance the usability and readability of the generated inventory.
+This project provides a powerful and flexible way to manage Ansible inventories dynamically. By leveraging structured YAML files and custom criteria, you can automate and streamline your infrastructure management with ease. The comprehensive logging further enhances the usability and readability of the generated inventory.
