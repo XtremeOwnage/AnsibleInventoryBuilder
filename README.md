@@ -146,6 +146,6 @@ For detailed debugging instructions, refer to the [Debugging](./docs/debugging.m
 
 For detailed testing instructions, refer to the [Testing](./docs/testing.md) documentation.
 
-## Conclusion
+## Removal / Uninstall
 
-This project provides a powerful and flexible way to manage Ansible inventories dynamically. By leveraging structured YAML files and custom criteria, you can automate and streamline your infrastructure management with ease. The comprehensive logging further enhances the usability and readability of the generated inventory.
+Please refer to [Removing the Plugin](./docs/plugin-installation.md#removing-the-plugin)
