@@ -189,49 +189,50 @@ These settings define various key names used in the inventory scripts.
 These include keys for enabling/disabling groups or hosts and special keys for internal logic.
 """
 
-# Key for identifying the group criteria in group vars
-HOST_CRITERIA_VAR: str = config['keys']['HOST_CRITERIA_VAR']
+# Special keys used for inventory functionality
+HOST_CRITERIA_VAR: str = config['special-keys']['HOST_CRITERIA_VAR']
 """
-Key for identifying the group criteria in group vars
-"""
-
-# Key used to enable or disable hosts or groups dynamically
-KEY_ENABLED: str = config['keys']['KEY_ENABLED']
-"""
-Key used to enable or disable hosts or groups dynamically
+Key for identifying the group criteria in group vars.
 """
 
-# Special key indicating the global 'all' group in group vars, and indicating the 'all' host in host-vars.
+KEY_ENABLED: str = config['special-keys']['KEY_ENABLED']
+"""
+Key used to enable or disable hosts or groups dynamically.
+"""
+
+GROUP_CRITERIA_FILE: str = config['special-keys']['GROUP_CRITERIA_FILE']
+"""
+This key is used to detect a .yaml file nested under a group's folder, which contains special criteria
+used to automatically assign hosts to a group. Any general variables stored in this file are not copied
+over to the resulting inventory.
+"""
+
+# Standard keys used in the output inventory structure
 KEY_ALL: str = config['keys']['KEY_ALL']
 """
 Special key indicating the global 'all' group in group vars, and indicating the 'all' host in host-vars.
 """
 
-# Key under which host variables are stored in the output inventory
 KEY_HOST_VARS: str = config['keys']['KEY_HOST_VARS']
 """
-Key under which host variables are stored in the output inventory
+Key under which host variables are stored in the output inventory.
 """
 
-# This is the _meta key, in the root of the inventory which holds... hostvars.
 KEY_META: str = config['keys']['KEY_META']
 """
 This is the _meta key, in the root of the inventory which holds... hostvars.
 """
 
-# This key is used in both _meta/host_vars/#/vars, as well as #/vars
 KEY_VARS: str = config['keys']['KEY_VARS']
 """
-This key is used in both _meta/host_vars/#/vars, as well as #/vars
+This key is used in both _meta/host_vars/#/vars, as well as #/vars.
 """
 
-# This key is used under #/hosts, to indicate which hosts belong to a specific group.
 KEY_HOSTS: str = config['keys']['KEY_HOSTS']
 """
 This key is used under #/hosts, to indicate which hosts belong to a specific group.
 """
 
-# This key is used under #/children, and groups nested under the current group.
 KEY_CHILDREN: str = config['keys']['KEY_CHILDREN']
 """
 This key is used under #/children, and groups nested under the current group.

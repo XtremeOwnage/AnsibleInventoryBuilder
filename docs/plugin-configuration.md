@@ -63,16 +63,26 @@ directories:
 
 ### Keys
 Defines various key names used in the inventory scripts.
+
+#### Special Keys
+These keys are customizable and affect the functionality of the inventory loader.
+```yaml
+special-keys:
+  HOST_CRITERIA_VAR: 'host_criteria'    # Key for identifying the group criteria in group vars
+  KEY_ENABLED: 'enabled'                # Key used to enable or disable hosts or groups dynamically
+  GROUP_CRITERIA_FILE: '_criteria.yaml' # This key is used to detect a .yaml file nested under a group's folder, which contains special criteria used to automatically assign hosts to a group. Any general variables stored in this file are not copied over to the resulting inventory.
+```
+
+#### Standard Keys
+These keys are specific to the resulting inventory structure and should not be modified.
 ```yaml
 keys:
-  HOST_CRITERIA_VAR: 'host_criteria'
-  KEY_ENABLED: 'enabled'
-  KEY_ALL: 'all'
-  KEY_HOST_VARS: 'host_vars'
-  KEY_META: '_meta'
-  KEY_VARS: 'vars'
-  KEY_HOSTS: 'hosts'
-  KEY_CHILDREN: 'children'
+  KEY_ALL: 'all'                        # Special key indicating the global 'all' group in group vars, and indicating the 'all' host in host-vars
+  KEY_HOST_VARS: 'host_vars'            # Key under which host variables are stored in the output inventory
+  KEY_META: '_meta'                     # This is the _meta key, in the root of the inventory which holds... hostvars
+  KEY_VARS: 'vars'                      # This key is used in both _meta/host_vars/#/vars, as well as #/vars
+  KEY_HOSTS: 'hosts'                    # This key is used under #/hosts, to indicate which hosts belong to a specific group
+  KEY_CHILDREN: 'children'              # This key is used under #/children, and groups nested under the current group
 ```
 
 ### Features

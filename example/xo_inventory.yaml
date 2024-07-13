@@ -54,23 +54,42 @@ directories:
   # Path to the folder containing host variable files.
   HOST_VARS_FOLDER: 'hosts'
   
-  # Path to the folder containing group variable files.
+  # Path to the folder containing either variables files for new groups, or a folder structure defining a group, its children, and variables.
+  # The folder, may contain child folders for hosts, groups, and vars (as defined by the keys in this section.)
   GROUP_VARS_FOLDER: 'groups'
+
+  # This is a special folder, which is intended to contain many different files with variables.
+  # The idea is to split each "set" of variables into a unique file. All of these files will be merged into the "all" group.
+  # Ex, store "DNS" specific variables under vars/dns.yaml.
+  # Additionally, this folder is used when defining groups with a folder structure, to store variables specific to that group.
+  VARS_FOLDER: 'vars'
   
   # List of valid YAML file extensions to be considered in loading processes.
   LOADER_YAML_EXTENSIONS: ['.yaml', '.yml']
 
-# keys:
-# These settings define various key names used in the inventory scripts.
-# These include keys for enabling/disabling groups or hosts and special keys for internal logic.
 
-keys:
+
+# special-keys:
+# These settings define various key names used for special functionalities in the inventory scripts.
+# These keys are customizable and will affect the functionality of the inventory loader.
+
+special-keys:
   # Key for identifying the group criteria in group vars.
   HOST_CRITERIA_VAR: 'host_criteria'
   
   # Key used to enable or disable hosts or groups dynamically.
   KEY_ENABLED: 'enabled'
-  
+
+  # This key is used to detect a .yaml file nested under a group's folder, which contains special criteria
+  # used to automatically assign hosts to a group. Any general variables stored in this file are not copied
+  # over to the resulting inventory.
+  GROUP_CRITERIA_FILE: "_criteria.yaml"
+
+# keys:
+# These settings define various key names used in the output structure for Ansible inventory.
+# These keys are specific to the resulting inventory structure and should not be modified.
+
+keys:
   # Special key indicating the global 'all' group in group vars, and indicating the 'all' host in host-vars.
   KEY_ALL: 'all'
   
