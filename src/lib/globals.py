@@ -13,9 +13,9 @@ def load_config() -> dict:
     Load the configuration from the YAML file located in one of the predefined paths.
     
     The method checks the following locations in order:
-    1. /etc/ansible/xo_inventory.yaml
+    1. (Current Directory)/xo_inventory.yaml
     2. (Ansible Env Inventory Location)/xo_inventory.yaml
-    3. (Current Directory)/xo_inventory.yaml
+    3. /etc/ansible/xo_inventory.yaml
 
     Returns:
         dict: The loaded configuration dictionary.
@@ -24,9 +24,9 @@ def load_config() -> dict:
         FileNotFoundError: If no configuration file is found in the predefined locations.
     """
     config_paths = [
-        '/etc/ansible/xo_inventory.yaml',
-        os.path.join(os.environ.get('ANSIBLE_INVENTORY', ''), 'xo_inventory.yaml'),
         os.path.join(os.path.dirname(__file__), 'xo_inventory.yaml')
+        os.path.join(os.environ.get('ANSIBLE_INVENTORY', ''), 'xo_inventory.yaml'),
+        '/etc/ansible/xo_inventory.yaml',
     ]
 
     for path in config_paths:
