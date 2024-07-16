@@ -2,10 +2,6 @@ name: Build and Release Debian Package
 
 on:
   push:
-    branches:
-      - "master"
-      - "main"
-      - "dev"
     tags:
       - 'v*'
 
