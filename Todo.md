@@ -7,6 +7,7 @@ Building and Deployment:
 Code Quality Items:
 - [ ] Add Linter
 - [ ] Automated Unit Test during PRs.
+- [ ] VENV in git repo?
 
 Github Items:
 - [?] Github CI/CD
