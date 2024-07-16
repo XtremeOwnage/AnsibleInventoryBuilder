@@ -3,9 +3,7 @@ import inspect
 import sys
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
-from globals import (LOG_FORMAT, CUSTOM_LOG_FORMAT, EXIT_ON_ERROR, EXIT_ON_FATAL,
-                     ENABLE_FILE_LOGGING, LOG_FILE_PATH, LOG_FILE_MAX_SIZE, LOG_TIMESTAMP_FORMAT,
-                     LOG_FILE_BACKUP_COUNT, ENABLE_LOG_ROTATION, MIN_LOG_LEVEL)
+from globals import (LOG_FORMAT, CUSTOM_LOG_FORMAT, EXIT_ON_ERROR, EXIT_ON_FATAL, ENABLE_FILE_LOGGING, LOG_FILE_PATH, LOG_FILE_MAX_SIZE, LOG_TIMESTAMP_FORMAT, LOG_FILE_BACKUP_COUNT, ENABLE_LOG_ROTATION, MIN_LOG_LEVEL)
 
 class InventoryLogger:
     def __init__(self, level=MIN_LOG_LEVEL):
