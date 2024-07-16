@@ -82,3 +82,27 @@ def skip_whitespace(criteria, start_index):
         start_index += 1
     logger.verbose(f"Skipped whitespace, new position: {start_index}")
     return start_index
+
+def merge_data(dict1: dict, dict2: dict) -> dict:
+    """
+    Merges two dictionaries together, combining keys and preserving values from both.
+    If a key exists in both dictionaries, the values are merged recursively.
+
+    Args:
+        dict1 (dict): The first dictionary.
+        dict2 (dict): The second dictionary.
+
+    Returns:
+        dict: The merged dictionary.
+    """
+    for key, value in dict2.items():
+        if key in dict1:
+            if isinstance(dict1[key], dict) and isinstance(value, dict):
+                dict1[key] = merge_data(dict1[key], value)
+            elif isinstance(dict1[key], list) and isinstance(value, list):
+                dict1[key].extend(x for x in value if x not in dict1[key])
+            elif dict1[key] != value:
+                dict1[key] = value
+        else:
+            dict1[key] = value
+    return dict1
