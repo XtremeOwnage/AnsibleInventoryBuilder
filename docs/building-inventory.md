@@ -21,7 +21,10 @@ inventory/
 ├── hosts/                                        # Top-level folder for host variable files
 │   ├── host1.yaml                                # Creates host1 and sets its variables
 │   ├── host2.yaml                                # Creates host2 and sets its variables
-│   └── all.yaml                                  # Variables applied to all hosts, merged with groups/all.yaml
+│   ├── new-host/                                 # Folder for the 'new-host' host
+│   │   ├── network-config.yaml                   # Network configuration for 'new-host'
+│   │   ├── security-settings.yaml                # Security settings for 'new-host'
+│   │   └── application-settings.yaml             # Application-specific settings for 'new-host'
 ├── groups/                                       # Top-level folder for group variable files and sub-groups
 │   ├── group1.yaml                               # Creates group1 and sets its variables and criteria
 │   ├── group2.yaml                               # Creates group2 and sets its variables and criteria
@@ -31,8 +34,9 @@ inventory/
 │   │   │   ├── host3.yaml                        # Creates host3 under 'rke' and sets its variables
 │   │   │   └── host4.yaml                        # Creates host4 under 'rke' and sets its variables
 │   │   ├── vars/                                 # Folder for variables specific to the 'rke' group
-│   │   │   ├── specific.yaml                     # Specific variables for 'rke'
-│   │   │   └── general.yaml                      # General variables for 'rke'
+│   │   │   ├── network-config.yaml               # Network configuration for 'rke'
+│   │   │   ├── security-settings.yaml            # Security settings for 'rke'
+│   │   │   └── application-settings.yaml         # Application-specific settings for 'rke'
 │   │   └── groups/                               # Folder for child groups under 'rke'
 │   │       ├── child-group1.yaml                 # Creates child-group1 under 'rke' and sets its variables
 │   │       ├── child-group2.yaml                 # Creates child-group2 under 'rke' and sets its variables
