@@ -1,9 +1,12 @@
 ## My Personal TODO List
 
 Building and Deployment:
-- [ ] DEB Package
-- [ ] Linux Deployment Script
+- [?] DEB Package
+- [X] Linux Deployment Script
 
+Code Quality Items:
+- [ ] Add Linter
+- [ ] Automated Unit Test during PRs.
 
 Github Items:
 - [?] Github CI/CD
