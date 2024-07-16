@@ -10,8 +10,8 @@ The inventory path is defined by the `STORAGE_LOCATION` in the plugin's configur
 
 The inventory directory may contain three subdirectories: `hosts`, `groups`, and `vars`. Each subdirectory will hold YAML files defining the variables for hosts, groups, and general variables, respectively.
 
-- **`hosts`**: Contains YAML files where each file represents a host.
-- **`groups`**: Contains YAML files where each file OR folder represents a group.
+- **`hosts`**: Contains YAML files where each file represents a host. Folders under `hosts` represent a host, and YAML files within the folder represent the host's variables.
+- **`groups`**: Contains YAML files where each file or folder represents a group. You may nest other groups, vars, or hosts folder under the groups folder to define sub-groups, hosts for this group, or vars for this group.
 - **`vars`**: Contains YAML files with variables that will be automatically merged with the `all` group. This allows better organization of vars based on purpose.
 
 ## Example Directory Structure
@@ -85,6 +85,17 @@ Each host's YAML file should define the variables for that host. An example `hos
 enabled: true
 ansible_host: 192.168.1.1
 type: webserver
+```
+
+A folder within the `hosts` directory will represent a host, and YAML files within the folder will represent the host's variables. Example `new-host/`:
+
+```
+inventory/
+└── hosts/
+    └── new-host/
+        ├── network-config.yaml
+        ├── security-settings.yaml
+        └── application-settings.yaml
 ```
 
 ## Group Variables (`groups`)
@@ -162,6 +173,8 @@ host_criteria: "app=proxmox && type=bare-metal"
 ```
 
 ## Customization
+
+
 
 ### Customizing Folder Names
 
